@@ -1,5 +1,6 @@
 import sys
 import os
+import subprocess
 
 def main():
 
@@ -7,19 +8,24 @@ def main():
     while True:
         sys.stdout.write("$ ")
         command = input().strip()
-        parts = command.split(maxsplit=1)
+        parts = command.split()
+        if not parts:
+            continue
         cmd = parts[0]
+        args = parts[1:]
         path = os.getenv("PATH", "")    #returned as string
         dirs = path.split(os.pathsep)
         found_executable = False
 
         if cmd == "exit":
             break
+        
         elif cmd == "echo":
             if len(parts) > 1:
-                print(parts[1])
+                print(args)
             else:
                 print("")
+        
         elif cmd == "type":
             if len(parts) ==2 :
                 if parts[1] in ("echo", "exit", "type"):
@@ -37,6 +43,14 @@ def main():
                     
                 if not found_executable:
                     print(f"{parts[1]}: not found")
+        
+        elif cmd is not None:
+            for directory in dirs:
+                full_command_path = os.path.join(directory, parts[0])
+                if os.path.isfile(full_command_path) and os.access(full_command_path, os.X_OK):
+                    subprocess.run([full_command_path] + args)
+                    break
+
         else:
             print(f"{command}: command not found")
     pass
