@@ -28,7 +28,7 @@ def main():
         
         elif cmd == "type":
             if len(parts) ==2 :
-                if parts[1] in ("echo", "exit", "type", "pwd"):
+                if parts[1] in ("echo", "exit", "type", "pwd", "cd"):
                     print(f"{parts[1]} is a shell builtin")
                     continue
                 
@@ -48,6 +48,18 @@ def main():
             # if args is None:
                 # sys.stdout.write(f"{os.getcwd()}")
             print(f"{os.getcwd()}")
+
+        elif cmd == "cd":
+            #check if the given path is one arg
+            #check if that arg location exits from pwd or check abs path
+            #if exits, switch to that location
+            #absolute path
+            if args[0][0] == "/" and os.path.isdir(args[0]) and len(args) == 1:
+                os.chdir(args[0])
+            else:
+                print(f"{cmd}: {args[0]}: No such file or directory")    
+
+
 
         else:
             for directory in dirs:
