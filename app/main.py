@@ -57,6 +57,8 @@ def main():
 
             #new method: os.chdir() resolves all the above steps
             if len(args) == 1:
+                if args[0] == "~":
+                    args[0] = os.getenv("HOME","")
                 try:
                     os.chdir(args[0])
                 except FileNotFoundError:
