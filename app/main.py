@@ -28,7 +28,7 @@ def main():
         
         elif cmd == "type":
             if len(parts) ==2 :
-                if parts[1] in ("echo", "exit", "type"):
+                if parts[1] in ("echo", "exit", "type", "pwd"):
                     print(f"{parts[1]} is a shell builtin")
                     continue
                 
@@ -44,6 +44,11 @@ def main():
                 if not found_executable:
                     print(f"{parts[1]}: not found")
         
+        elif cmd == "pwd":
+            # if args is None:
+                # sys.stdout.write(f"{os.getcwd()}")
+            print(f"{os.getcwd()}")
+
         else:
             for directory in dirs:
                 full_command_path = os.path.join(directory, parts[0])
