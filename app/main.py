@@ -1,11 +1,12 @@
 import sys
 import os
 import subprocess
+import shlex
 
 
 # ---------- Builtins ----------
 def builtin_echo(args: list[str]) -> None:
-    print(' '.join(args))
+    print(" ".join(args))
 
 
 def builtin_pwd(args: list[str]) -> None:
@@ -85,7 +86,8 @@ def main() -> None:
         except EOFError:
             break
 
-        parts = command_line.split()
+        parts = shlex.split(command_line)   #using shelx to understand simple syntax for unix shell.
+                                            #like to escape quotes, special chars n all 
         if not parts:
             continue
 
