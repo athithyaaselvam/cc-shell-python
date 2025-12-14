@@ -1,6 +1,7 @@
 import sys
 import os
 import subprocess
+from pathlib import Path
 
 def main():
 
@@ -53,11 +54,17 @@ def main():
             #check if the given path is one arg
             #check if that arg location exits from pwd or check abs path
             #if exits, switch to that location
-            #absolute path
-            if args[0][0] == "/" and os.path.isdir(args[0]) and len(args) == 1:
-                os.chdir(args[0])
+
+            #new method: os.chdir() resolves all the above steps
+            if len(args) == 1:
+                try:
+                    os.chdir(args[0])
+                except FileNotFoundError:
+                    print(f"cd: {args[0]}: No such file or directory")
+                except NotADirectoryError:
+                    print(f"cd: {args[0]}: Not a directory")
             else:
-                print(f"{cmd}: {args[0]}: No such file or directory")    
+                print("takes only one argument") 
 
 
 
